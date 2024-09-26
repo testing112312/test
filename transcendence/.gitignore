@@ -1,0 +1,25 @@
+### OSX ###
+.DS_Store
+
+# Thumbnails
+._*
+
+### Python ###
+__pycache__/
+*.py[cod]
+
+### Django ###
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+# .env
+db.sqlite3
+~*.docx
+
+#Debug Files
+srcs/volumes/*
+vol/ls/.lock
+
+myenv

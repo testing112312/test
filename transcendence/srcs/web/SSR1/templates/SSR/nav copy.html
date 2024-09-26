@@ -1,0 +1,63 @@
+{% block content %}
+<div class="nav">
+    <div class="vBar">
+        <div class="pong-menu">
+            <div class="paddle top"></div>
+            <div class="ball"></div>
+            <div class="paddle bottom"></div>
+        </div>
+        <div class="menu" hidden>
+           
+        </div>
+    </div>
+    <div class="hBar">
+        <div class="menu">
+                <div class="navhighlight">
+                    <a class="navlink"  href="{% url 'home' %}">HOME</a>
+                </div>
+                <div class="navhighlight">
+                    <a class="navlink" href="{% url 'about' %}">ABOUT</a>
+                </div>
+                <div class="navhighlight">
+                    <a class="navlink" href="{% url 'game' %}">GAME</a>
+                </div>
+                
+        </div>
+        <div class="user">
+            <h3 class="userid">Guest</h3>
+            <div class="signbtn">
+                <button class="signin" value="0" href="#"><i class="fa-regular fa-user"></i></button>
+            </div>
+            <nav class="popup" style="visibility: hidden;">
+                <ul>
+                    <li> <button class="popup-btn">  Log in</button></li>
+                    <li> <button class="popup-btn">  Sign up</button></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<script>
+    const button = document.querySelector('.signin');
+    button.addEventListener('click', () => {
+        button.value = button.value === '0' ? '1' : '0';
+        const popup = document.querySelector('.popup');
+        if (button.value == 1)
+        {
+            popup.style.opacity = 1;
+            popup.style.visibility = 'visible';
+        } 
+        else
+        {
+            popup.style.opacity = 0;
+            popup.style.visibility = 'hidden';
+        }
+
+    });
+</script>
+<div class="hBarFoot">
+    
+</div>
+
+
+{% endblock %}

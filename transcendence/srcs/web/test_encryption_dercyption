@@ -1,0 +1,19 @@
+from cryptography.fernet import Fernet
+
+# Use the same key for both encryption and decryption
+encryption_key = b'your-encryption-key'  # Replace with your actual key
+cipher = Fernet(encryption_key)
+
+# Example key to encrypt
+test_key = b'some-test-key'  # This should be the original key you expect to decrypt
+
+# Encrypt the key
+encrypted_key = cipher.encrypt(test_key)
+print(f"Encrypted key: {encrypted_key}")
+
+# Decrypt the key
+try:
+    decrypted_key = cipher.decrypt(encrypted_key)
+    print(f"Decrypted key: {decrypted_key.decode()}")
+except InvalidToken as e:
+    print(f"Decryption failed: {e}")

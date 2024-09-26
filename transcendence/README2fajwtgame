@@ -1,0 +1,38 @@
+pong game tutorial
+https://www.youtube.com/watch?v=nl0KXCa5pJk
+2 factor authentication tutorial
+https://www.youtube.com/watch?v=KKu0n6OW0uk
+to make pythons virtual environment on mac or windows
+For a more robust and manageable development environment, it is recommended to use virtual environments. They allow you to create isolated environments with specific versions of libraries needed for each project, avoiding conflicts.
+
+You can create a virtual environment using venv (comes with Python):
+
+Navigate to your project folder.
+
+Run the following command:
+
+bash
+
+python -m venv myenv
+Activate the virtual environment:
+
+On Windows:
+bash
+
+myenv\Scripts\activate
+On macOS/Linux:
+bash
+
+source myenv/bin/activate
+Once activated, you can install Django and other dependencies without polluting the global site-packages.
+
+Ultimately, while running Django without a virtual environment is feasible, it’s advisable to use one to ensure a smoother development experience and to prevent future issues.
+
+to  ensure you collect static variables 
+python manage.py collectstatic
+before starting your server
+
+for jwt tutorilas and documentation
+https://youtu.be/5ws4RDEw91Q?si=g6rM1JP3SZfTS6B3
+https://django-rest-framework-simplejwt.readthedocs.io/en/latest/
+https://www.youtube.com/watch?v=KLua_cYGLec&t=685s

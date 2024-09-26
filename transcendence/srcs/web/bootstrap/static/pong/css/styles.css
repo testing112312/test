@@ -1,0 +1,112 @@
+/* styles.css */
+
+/* Styles for the Pong Game */
+#pong {
+    width: auto;
+    height: auto;
+    max-width: 50%;
+    aspect-ratio: 3/2;
+    border: 2px solid #FFF;  /* Optional: border for better visibility */
+}
+
+/* Additional styles (optional) */
+.container {
+    text-align: center;
+    /* margin-top: 5rem; */
+}
+.intro {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+/* tournoment css brackets */
+
+.bracket {
+    width: 500px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.round {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0 10px;
+}
+.match {
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+.team {
+    display: flex;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    width: auto;
+    background-color: #f8f9fa;
+    justify-content: space-evenly;
+    align-items: center;
+    /* margin: 5px 0; */
+}
+.team input {
+    width: 100px;
+    border: none;
+    background-color: transparent;
+    font-weight: bold;
+}
+.connector {
+    position: absolute;
+    right: 330px;
+    height: 80px;
+    width: 20px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+.connector1 {
+    position: absolute;
+    right: 310px;
+    width: 20px;
+    height: 1px;
+   background-color: black;
+}
+.connector2 {
+    position: absolute;
+    right: 170px;
+    height: 150px;
+    width: 20px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.connector3 {
+    position: absolute;
+    right: 150px;
+    width: 20px;
+    height: 1px;
+   background-color: black;
+}
+#startmatch
+{
+    position: absolute;
+    top: 300px;
+}

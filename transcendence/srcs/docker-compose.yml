@@ -1,0 +1,169 @@
+# mapped volume from web to nginx for static files
+# use individual env files for each service
+# change command in dockerfile for web to include gunicorn
+# deleted ports 8000 in web
+# restart
+services:
+  web:
+    build: ./web
+    volumes:
+      - web-vol:/home/app/web
+      - static-vol:/home/app/web/staticfiles
+      - media-vol:/home/app/web/mediafiles
+      - ls-vol:/home/app/web/logs
+    env_file:
+      - ./.env.web
+    depends_on:
+      - postgres
+      # - elasticsearch
+    networks:
+      - backend
+  postgres:
+    image: postgres:15
+    volumes:
+      - postgres-vol:/var/lib/postgressql/data/
+    env_file:
+      - ./.env.db
+    expose:
+      - 5432
+    networks:
+      - backend
+  nginx:
+    build: ./nginx
+    volumes:
+      - static-vol:/home/app/web/staticfiles
+      - media-vol:/home/app/web/mediafiles
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+    networks:
+      - backend
+  # grafana:
+  #   build: ./grafana
+  #   ports: 
+  #     - "3000:3000"
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=admin
+  #     - GF_SECURITY_ADMIN_PASSWORD=admin
+  #   networks:
+  #     - backend
+  #   # volumes:
+  # prometheus:
+  #   build: ./prometheus
+  #   ports:
+  #     - "9090:9090"
+  #   networks:
+  #     - backend
+  #   # volumes:
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.14.3
+  #   env_file:
+  #     - ./.env.es
+  #   volumes:
+  #     - es-vol:/usr/share/elasticsearch/data
+  #   ports:
+  #     - "9200:9200"
+  #   networks:
+  #     - backend
+  # logstash:
+  #   build: ./elk/logstash
+  #   volumes:
+  #     - ls-vol:/usr/share/logstash/data
+  #   ports:
+  #     - "9600:9600"
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - backend
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.14.3
+  #   volumes:
+  #     - kb-vol:/usr/share/kibana/data
+  #   ports:
+  #     - "5601:5601"
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - backend
+  # vault:
+  #   build: ./vault
+  #   ports:
+  #     - "8200:8200"
+  #   env_file:
+  #     - .env.vlt
+  #   cap_add:
+  #     - IPC_LOCK
+  #   networks:
+  #     - backend
+  # modsecurity:
+  #   build: ./modsecurity
+  #   volumes:
+  #     - ng-conf-vol:/etc/nginx/conf
+  #     - ng-modules-vol:/etc/nginx/modules
+  #   networks:
+  #     - backend
+
+#Remove all binded volumes
+volumes:
+  web-vol:
+    name: web-vol
+  postgres-vol:
+    name: postgres-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/db
+    #   o: bind
+  static-vol:
+    name: static-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/static
+    #   o: bind
+  media-vol:
+    name: media-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/media
+    #   o: bind
+  ng-conf-vol:
+  ng-modules-vol:
+    # name: nginx-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: /mnt/c/Users/huong/Desktop/transcendence/vol/nginx
+    #   o: bind
+  es-vol:
+    name: es-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/es
+    #   o: bind
+  ls-vol:
+    name: ls-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/ls
+    #   o: bind
+  kb-vol:
+    name: kb-vol
+    # driver: local
+    # driver_opts:
+    #   type: none
+    #   device: ./volumes/kb
+    #   o: bind
+
+networks:
+  backend:
+    driver: bridge
+
+  # - ng-conf-vol:/etc/nginx/conf
+  # - ng-modules-vol:/etc/nginx/modules
+  # - modsecurity

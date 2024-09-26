@@ -1,0 +1,101 @@
+====Docker-Compose====
+
+mount /app folder into /usr/src/app
+volumes:
+    - ./app/:/usr/src/app
+
+docker-compose exec <service> python manage.py migrate --noinput
+-docker-compose exec - allows you to run a commad in Docker container specified in docker-compose file
+-<service> - service name, like web
+-python manage.py migrate - migrate 
+- --noinput - use default answers where django would normally ask for user input
+
+====DJANGO====
+--Change the following variables in settings.py--
+SECRET_KEY = os.environ.get("SECRET_KEY")
+Why: The SECRET_KEY is a critical setting used for cryptographic signing in Django. It should be kept secret and not hard-coded in your source code to avoid accidental exposure, especially if the code is shared or stored in a public repository.
+How: By retrieving the SECRET_KEY from an environment variable, you ensure that it remains secure and can be easily changed without modifying the source code.
+
+DEBUG = bool(os.environ.get("DEBUG", default=0))
+Why: The DEBUG setting determines whether Django runs in debug mode, which provides detailed error pages and additional logging useful during development. It should be set to False in production to avoid leaking sensitive information.
+How: By using an environment variable, you can easily switch between development and production configurations. The default=0 ensures that DEBUG is False if the environment variable is not set, as an empty or non-existent environment variable evaluates to 0, which converts to False.
+
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
+Why: The ALLOWED_HOSTS setting is a security measure to prevent HTTP Host header attacks. It specifies a list of valid hostnames that your Django application can serve. Hard-coding these values is not flexible and can be problematic when deploying the application to different environments.
+How: Using an environment variable allows you to dynamically specify allowed hosts without changing the source code. Splitting the environment variable value by spaces provides a list of hosts. This is useful because environment variables are typically single strings, and splitting by spaces allows you to provide multiple hosts easily.
+
+IMPORT os
+provides a way of using operating system-dependent functionality, allowing you to interface with the underlying operating system in a portable way.
+
+STATIC_URL = "/static/"
+defines the URL prefix where Django will serve static files from. ex: site.com/static/
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+specifies the directory where DJango will collect all static files from various apps into a single location for deployment
+BASE_DIR usually refers to root directory of Django project
+
+Multi Build dockerfile
+-multibuild allows multiple FROM statements and helps create smaller Docker images
+-separate build environment from runtime environment
+-fewer packges and tools in final image = less attack surface and more securityRead it 
+
+Static Files
+-https://docs.djangoproject.com/en/4.2/howto/static-files/
+-python manage.py collectstatic -> this will collect all static files into a separate folder
+
+Databases and Migrations
+-Create database models in models.py file
+-Migrations command is called to implement changes made to models into attached database
+-Register model in admin.py
+    from .models import <classname>
+    admin.site.register(<classname>)
+    Now we can see the class in Django admin
+
+
+====Postgres====
+psycopg2 is postgrewql database adapter for python programming language
+
+====Gunicorn====
+-gunicorn does not serve static files. we will use nginx to serve the static files instead
+
+====ELK Stack====
+-Elasticsearch - datastore/search engine that can be used to index data from any conventional database for quick search
+-Logstash - used to cllect, process, and forward events and log messages
+-Kibana - visualize data and events
+-We need to:
+    -send Django Logs to Logstash
+    -index existing database to Elasticsearch
+    -index every new instance that user saves to database
+    -visualization using kibana
+
+Elasticsearch
+https://medium.com/@tech_with_mike/elasticsearch-with-django-quick-tutorial-with-video-e75263f813c7
+Installation:
+1. Add Elasticsearch on docker-compose. For now we pull image, map ports, set a separate volume for it, and create .env file
+2. Add django-elasticsearch-dsl and django-elasticsearch-dsl-drf package to requirements.txt. This will allow django to integrate ES into project
+3. add django-elasticsearch-dsl and django-elasticsearch-dsl-drf to INSTALLED_APPS in settings.py
+4. Add the following to settings.py to speicy how we can connet to ES service
+    ELASTICSEARCH_DSL = {
+        "default": {"hosts": "elasticsearch:9200"},
+    }
+
+Create a file called ocuments.py to index objects from database
+
+
+
+
+=====NOTES=====
+-Check where to put env variables. Right now a few of them are in dockerfiles
+-comment out database flus and migrate commands in entrypoint.sh in app
+-despite adding Postgres, we can still create an independent Docker image for Django as long as the DATABASE environment variable is not set to postgres
+    -> this means we can also set another database to be used by our Django app
+-don't forget to add to env.prod files to gitignore
+-check production dockerfile later
+https://testdriven.io/blog/dockerizing-django-with-postgres-gunicorn-and-nginx/#production-dockerfile
+
+====TO DO====
+-create admin
+-check if database has been added in postgres
+-install kibana and logstash
+
+For modsecurity, we must use nginx.conf and modsecurity.conf file!

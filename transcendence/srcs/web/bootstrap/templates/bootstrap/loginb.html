@@ -1,0 +1,34 @@
+<section class="position-relative ">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2>Log in</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-5">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
+                           <!-- image -->
+                           <i class="fa-solid fa-user"></i>
+                           </div>
+                        <form class="text-center" action="{% url 'loginEndPoint' %}"  id="loginform" method="post">
+                           {% csrf_token %}
+                            <div class="alert alert-warning d-none message" role="alert">
+                                <div id="error">
+                                    {{ message }}
+                                </div>
+                            </div>
+                            <div class="mb-3"><input class="form-control" type="text" name="username" placeholder="UserId" id="id_username"  required></div>
+                            <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"  id="id_password" required></div>
+                            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit" onclick="login()">Login</button></div>
+                            <p class="text-muted">Don't have an account? <a href="{% url 'signup' %}">Register here</a>.</p>
+                            <button type="button" class="btn btn-outline-primary d-block w-100" id="loginWith42">Login with 42</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

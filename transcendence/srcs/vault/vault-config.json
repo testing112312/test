@@ -1,0 +1,16 @@
+
+{
+	"storage": {
+		"postgresql" : {
+			"connection_url": "postgresql://dbuser:dbuser@postgres:5432/djangodb?sslmode=disable",
+			"table": "vault_kv_store"
+		}
+	},
+	"listener": {
+	  "tcp":{
+		"address": "0.0.0.0:8200",
+		"tls_disable": 1
+	  }
+	},
+	"ui": true
+}

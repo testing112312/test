@@ -1,0 +1,83 @@
+{% load static %}
+{% for friend in friends %}
+<div class="row">
+    <div class="col-md-6 col-xl-4">
+        <div class="card mb-5" style="width: 200px;">
+            <div class="card-body d-flex flex-column align-items-center">
+                <div class="d-flex flex-row justify-content-between align-items-center" style="padding-right: 0px;padding-left: 0px;margin-left: -1px;">
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
+                    <!-- image -->
+                    {% if friend.avatar.avatar %}
+                    <img class="rounded-circle" alt="" width="75" height="75" src='{{ friend.avatar.url }}'  style="object-fit: cover;">
+                    {% else %}
+                        <img class="rounded-circle" alt="" width="75" height="75" src='{% static "pong/image/User.png" %}'  style="object-fit: cover;">
+                    {% endif %}
+                    <div class="bs-icon-circle bs-icon" style="position: absolute; bottom: 63%; left:  55%; background-color: aliceblue;">
+                        {% if friend.user == user %}
+                            {% if friend.friend.online  %}
+                            <div class="bs-icon-circle bs-icon " style=" background-color: green; width: 80%; height: 80%;"></div>
+                            {% else %}
+                            <div class="bs-icon-circle bs-icon " style=" background-color: red; width: 80%; height: 80%;"></div>
+                            {% endif %}
+                        {% else %}
+                            {% if friend.user.online  %}
+                            <div class="bs-icon-circle bs-icon " style=" background-color: green; width: 80%; height: 80%;"></div>
+                            {% else %}
+                            <div class="bs-icon-circle bs-icon " style=" background-color: red; width: 80%; height: 80%;"></div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% if friend.user == user %}
+            <div class="mb-3"><strong>
+                <a href="{% url 'friend_profile' %}" id="userprofile">{{ friend.friend.username }}</a>
+            </strong></div>
+            {% else %}
+            <div class="mb-3"><strong>
+                <a href="{% url 'friend_profile' %}" id="userprofile">{{ friend.friend.username }}</a>
+            </strong></div>
+            {% endif %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Win</th>
+                            <th>Loss</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% if friend.user == user %}
+                            <td>{{ friend.friend.wins }}</td>
+                            <td>{{ friend.friend.losses }}</td>
+                            {% else %}
+                            <td>{{ friend.user.wins }}</td>
+                            <td>{{ friend.user.losses }}</td>
+                            {% endif %}
+                        </tr>
+                        <tr></tr>
+                    </tbody>
+                </table>
+            </div>
+            {% if friend.user == user %}
+                {% if page == 'pending' %}
+                    <div class="mb-2 ">
+                        <button class="btn btn-primary" onclick="removefriend('{{ friend.friend.username }}')">Remove</button>
+                    </div>
+                {% else %}
+                    <div class="mb-2 ">
+                        <button class="btn btn-primary" onclick="removefriend('{{ friend.friend.username }}')">Remove</button>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="mb-2 ">
+                    <button class="btn btn-primary"  onclick="addfriend('{{ friend.user.username }}')">Accept</button>
+                    <button class="btn btn-primary"  onclick="removefriend('{{ friend.user.username }}')">Remove</button>
+                </div>
+            {% endif %}    
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}

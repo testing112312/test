@@ -1,0 +1,23 @@
+FROM owasp/modsecurity-crs:nginx-alpine
+
+EXPOSE 443
+
+USER root
+
+RUN apk add --no-cache \
+	openssl
+
+RUN mkdir -p /etc/nginx/ssl/private /etc/nginx/ssl/certs && \
+	openssl req -x509 -sha256 -nodes \
+	-newkey rsa:2048 \
+	-days 365 \
+	-subj "/C=AE/ST=AbuDhabi/L=AbuDhabi/O=42AbuDhabi/OU=Transcendence/CN=localhost" \
+	-keyout /etc/nginx/ssl/private/nginx.key \
+	-out /etc/nginx/ssl/certs/nginx.crt
+
+RUN chown -R nginx:nginx /etc/nginx/
+
+COPY transcendence.conf /etc/nginx/conf.d/transcendence.conf
+
+USER nginx
+

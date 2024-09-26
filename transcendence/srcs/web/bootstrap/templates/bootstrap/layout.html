@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <!-- favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href='{% static "favicon/apple-touch-icon.png" %}'>
+  <link rel="icon" type="image/png" sizes="32x32" href='{% static "favicon/favicon-32x32.png" %}'>
+  <link rel="icon" type="image/png" sizes="16x16" href='{% static "favicon/favicon-16x16.png" %}'>
+  <link rel="icon" type="image/png"  href='{% static "favicon/favicon.ico" %}'>
+  <link rel="manifest" href='{% static "favicon/site.webmanifest" %}'>
+  <!-- link to css, libraries -->
+  <link rel="stylesheet" href="{% static 'pong/css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'pong/css/style.css' %}">
+  <!-- link bootstrap fontawesome -->
+  <link rel="stylesheet" href='{% static "pong/bootstrap/css/bootstrap.min.css" %}'>
+  <link rel="stylesheet" href='{% static "pong/Navbar-With-Button-icons.css" %}'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <!-- js -->
+  <script type="text/javascript" src='{% static "pong/js/auth-admin.js" %}'> </script>
+  <script type="text/javascript" src='{% static "pong/js/navigation.js" %}'> </script>
+  <script type="text/javascript" src='{% static "pong/js/profile.js" %}'> </script>
+  <title>PONG</title>
+</head>
+<body class="d-flex justify-content-center align-items-center align-content-center" >
+  <div class=" page"  >
+    {% include 'bootstrap/nav.html' %}
+    <div class="container d-flex flex-column justify-content-center py-1 py-xl-1"  id="contentB" >
+      {% block content %}
+      {% endblock %}
+    </div>
+  </div>
+  <script type="text/javascript" src='{% static "pong/js/animation.js" %}'> </script>
+  <script type="text/javascript" src='{% static "pong/js/PongGame.js" %}'> </script>
+  <script src='{% static "pong/bootstrap/js/bootstrap.min.js"%}'></script>
+    <script>
+      //  const background = document.getElementById('tilde-background');
+      //   const tildeChars = ['~', '|', '≈', 'o'];
+      //   const density = 50;
+
+      //   function createTilde() {
+      //       const tilde = document.createElement('span');
+      //       tilde.textContent = tildeChars[Math.floor(Math.random() * tildeChars.length)];
+      //       tilde.className = 'tilde';
+      //       setTildePosition(tilde);
+      //       background.appendChild(tilde);
+
+      //       setTimeout(() => {
+      //           setTildePosition(tilde);
+      //       }, 100);  // Small delay to trigger the transition
+      //   }
+
+      //   function setTildePosition(tilde) {
+      //       tilde.style.left = `${Math.random() * 95}%`;
+      //       tilde.style.top = `${Math.random() * 95}%`;
+      //       tilde.style.transform = `rotate(${Math.random() * 360}deg)`;
+      //   }
+
+      //   for (let i = 0; i < density; i++) {
+      //       createTilde();
+      //   }
+
+      //   setInterval(() => {
+      //       background.querySelectorAll('.tilde').forEach(setTildePosition);
+      //   }, 10000);  // Move tildes every 10 seconds
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{% load static %}
+<div class="container text-center">
+  <h1 class="game_head" >Pong Game</h1>
+  <canvas id="pong" width="800" height="400"></canvas>
+  <button class="mt-4 intro pause rounded-5" style="visibility: hidden; background-color: white; width: 4vw;">
+      <h1>
+        <i class="fa-solid fa-pause"></i>
+      </h1>
+  </button>
+  <div class="mt-4 intro">
+      <button id="startButtonMultiplayer" class="btn btn-primary purple-button">Multiplayer Pong Start</button>
+      <button id="startButtonTournament" class="btn btn-primary purple-button">Tournament Pong Start</button>
+  </div>
+  <div id="bracket" class="bracket" style="visibility: hidden;">
+    <div class="round">
+        
+        <div class="match">
+            <div class="team">
+                <input type="text" value="enter name">
+            </div>
+            <div class="connector"></div>
+            <div class="connector1"></div>
+            <div class="team">
+                <input type="text" value="enter name">
+            </div>
+        </div>
+        <div class="match">
+            <div class="team">
+                <input type="text" value="enter name">
+            </div>
+            <div class="connector"></div>
+            <div class="connector1"></div>
+            <div class="team">
+                <input type="text" value="enter name">
+            </div>
+        </div>
+
+    </div>
+    <div class="round">
+        <div class="match" style="height: 300px;">
+            <div class="team" >
+                <input type="text" value="round2" readonly>
+            </div>
+             <div class="connector2"></div>
+            <div class="connector3"></div>
+            <div class="team">
+                <input type="text" value="round3" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="round">
+        <div class="match">
+            <div class="team">
+                <input type="text" value="winner" readonly>
+            </div>
+        </div>
+    </div>
+  <button class="btn btn-primary purple-button" id="startmatch" >start match </button>
+</div>
+</div>

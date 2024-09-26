@@ -1,0 +1,68 @@
+{% load static %}
+<!-- navbar -->
+<div id="nav-container">
+    <nav class="navbar navbar-expand-md border-top border-bottom  py-3" id="nav">
+        <div class="container-fluid">
+            <button class="navbar-toggler shadow-none border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <span class="bs-icon-sm bs-icon-rounded  d-flex justify-content-center align-items-center me-2 bs-icon" >
+                <div class="d-flex flex-column justify-content-between align-items-center pong-menu">
+                    <div class="paddle top" ></div>
+                    <div class="ball" ></div>
+                    <div class="paddle bottom" ></div>
+                </div>   
+            </span>
+            <a class="navbar-brand d-flex align-items-center" href="#"></a>
+        <!-- side bar -->
+            <div class="sidebar offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <!-- sidebar header -->
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">PONG</h5>
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <!-- sidebar body -->
+                <div class="offcanvas-body  sidbarbody">
+                            <ul class="navbar-nav nav-pills me-auto d-flex align-items-center smallscreen ">
+                                <li class="nav-item mx-2"><a class="nav-link link-body-emphasis ponglink" href="{% url 'home' %}" >HOME</a></li>
+                                <li class="nav-item mx-2"><a class="nav-link link-body-emphasis ponglink" href="{% url 'game' %}" >GAME</a></li>
+                                <li class="nav-item mx-2"><a class="nav-link link-body-emphasis ponglink" href="{% url 'team' %}" >TEAM</a></li>
+                            </ul>
+                            <!-- dropdown -->
+                        <div class="dropdown bg-transparent DROP shadow-none d-flex flex-colum p-2 justify-content-end ">
+                                <span class="navbar-text" style="margin-right: 20px;">
+                                    {% if user.is_authenticated %}
+                                        {{ user.username }}
+                                    {% else %}
+                                        GUEST
+                                    {% endif %}
+                                </span>
+                            <button class="dropdown-toggle link-body-emphasis d-flex align-items-center text-decoration-none btn border-0" aria-expanded="false" data-bs-toggle="dropdown" > 
+                                {% if user.is_authenticated %}
+                                    {% if user.avatar %}
+                                        <img class="rounded-circle" alt="" width="32" height="32" src='{{ user.avatar.url }}'  style="object-fit: cover;">
+                                    {% else %}
+                                        <img class="rounded-circle" alt="" width="32" height="32" src='{% static "pong/image/User.png" %}'  style="object-fit: cover;">
+                                    {% endif %}
+                                {% else %}
+                                    <img class="rounded-circle" alt="" width="32" height="32" src='{% static "pong/image/User.png" %}'  style="object-fit: cover;">
+                                {% endif %}
+                            </button>
+                            <div class="dropdown-menu shadow text-small sm-drop" data-popper-placement="top-start">
+                                {% if user.is_authenticated %}
+                                    <a class="dropdown-item sm-text ponglink" href="{% url 'setting' %}">SETTINGS</a>
+                                    <a class="dropdown-item sm-text ponglink" href="{% url 'profile' %}" > PROFILE</a>
+                                    <div class="dropdown-divider sm-text ponglink"></div>
+                                    <a class="dropdown-item sm-text ponglink " href="{% url 'logout_view' %}" >SIGN OUT</a>
+                                {% else %}
+                                    <a class="dropdown-item sm-text ponglink" href="{% url 'login' %}" >LOGIN</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item sm-text ponglink" href="{% url 'signup' %}" >SIGN UP</a>
+                                {% endif %}
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

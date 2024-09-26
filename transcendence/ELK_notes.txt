@@ -1,0 +1,231 @@
+====Elasticsearch====
+
+Node
+-an instance of elasticsearch
+-has unique id and name
+-belongs to a cluster - automatically added to one upon instantiation
+-distributed across separate machines but can be part of one cluster
+-assigned to one or more roles
+-can hold data
+
+cluster
+-contains 1+ nodes
+-all nodes in a cluster work together to accomplish a task
+
+Data is stored as documents
+-A document is a JSON object with a unique id
+-ex:
+	{
+		name: "Clementines(3lb bag)",
+		category: "Fruits",
+		brand: "Cuties",
+		price: "$4.29",
+	}
+
+index
+-documents are grouped into an index
+-ex:	produce index 
+		wine&beer index
+-it does not store documents, but rather its a virtual thing that keeps track of where things are stored
+
+shard
+-exists on disk
+-one shard comes with index by default
+-you can create multiple shards across index, and assign each shard to a node
+-where data is stored
+	-the number of documents that a shard can hold depends on capacity of node
+	-create multiple shards so they can hold more documents
+	-add more shards and nodes as data increases
+-this is where you run a search query
+	-search is faster when run across more shards vs one shard, bc search can be run in parallel
+		ex: 500k items in one shard vs 50k items in 10 shards
+-store copies of data (replica shards)
+	-if one node goes down, we still have backup data somewhere else
+	-can handle increased demand on search
+
+GET - perform a search
+	GET _cluster/health
+	GET _nodes/stats
+POST - add documents
+PUT - create an index
+
+Use POST <index>/_doc
+	put a document into index
+use PUT <index>/_doc/<custom id #>
+	put document into index with a custom id #
+
+Read a document
+GET <index>/_doc/<id #>
+
+You can overwrite a document
+It will be indicated in version #
+
+create _Endpoint
+PUT <index>/_create/<id # to assign>
+-> use this if you don't want to accidentally overwrite another document in the same id #
+
+Update a document
+POST <index>/_update/<id #>
+{
+	"doc": {
+		"field-to-update": "value",
+		etc...
+	}
+}
+
+Delete a document
+DELETE <index>_doc/<id # to delete>
+
+RELEVANCE OF A SEARCH
+True Positives - relevant documents that are returned to the user
+False Positives - irrelevant docs that are returned to user
+True Negatives - irrelevant docs not returned to user
+False Negatives - relevant docs not returned to user
+
+Precision = True positives / (true positives + false positives)
+What portion of retrieved data was actually relevant to search query
+
+Recall = true pos / (true pos + false neg)
+What portion of relevant data is being returned as search results
+
+improving precision may cause decline in recall and vice-versa
+precision and recall are inverseley related
+
+Ranking refers to ordering of results (most to least relevant)
+determined by a scoring algorithm
+score is a value that reperesents how relevant a document is to that query
+a score is computed for each document that is a hit
+
+Computing a doc score
+Term Frequency
+	-determines how many times each search term appears in a document
+Inverse Document Frequency
+	-diminishes weight of terms that occur very frequently in the document set and increases the weight of terms that occur rarely
+
+Fine tuning precision or recall using Elasticsearch and Kibana
+
+Add Logging to settings.py to configure django project for logstash
+LOGGING = {
+  'version': 1,
+  'disable_existing_loggers': False,
+  'formatters': {
+      'simple': {
+            'format': 'velname)s %(message)s'
+        },
+  },
+  'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'logstash': {
+            'level': 'WARNING',
+            'class': 'logstash.TCPLogstashHandler',
+            'host': 'localhost',
+            'port': 5959, # Default value: 5959
+            'version': 1, # Version of logstash event schema. Default value: 0 (for backward compatibility of the library)
+            'message_type': 'django',  # 'type' field in logstash message. Default value: 'logstash'.
+            'fqdn': False, # Fully qualified domain name. Default value: false.
+            'tags': ['django.request'], # list of tags. Default: None.
+        },
+  },
+  'loggers': {
+        'django.request': {
+            'handlers': ['logstash'],
+            'level': 'WARNING',
+            'propagate': True,
+        },
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+    }
+}
+
+Logging components
+formatters - define layout of log message
+handlers - specify where log messages are sent
+loggers - configure different parts of application to use specific handlers and log levels
+filters - control which log messages are processed
+
+Formatters
+create user-defined names for each format, and then define the following optional keys:
+format
+	%(asctime)s: The time when the log message was created.
+	%(levelname)s: The log level (e.g., DEBUG, INFO, WARNING, ERROR, CRITICAL).
+	%(message)s: The log message.
+	%(name)s: The name of the logger that emitted the log message.
+	%(module)s: The module (script) name where the log message was generated.
+	%(filename)s: The file name where the log message was generated.
+	%(lineno)d: The line number in the source code where the log message was generated.
+	%(funcName)s: The function name where the log message was generated.
+datefmt
+	use this with the asctime specifier
+style
+	specify the format string style
+	'%' (default): Uses %-style formatting.
+	'{': Uses {}-style formatting (Python’s str.format()).
+	'$': Uses $-style formatting (string.Template).
+validate
+	boolean, if 'False' skips validation of formatter's parameters
+defaults
+	gives default values for format string
+
+Handlers
+create user-defined names for each handler and specifies how log messages are handled and send them to their final destination such as console, file or remote server
+
+Components:
+-level: The minimum log level that this handler will handle. Messages with a lower level than this will be ignored by the handler.
+-class: The Python class used for the handler, which determines how log messages are handled.
+-formatter: The formatter to use for this handler, which determines how the log messages are formatted.
+-filename: The name of the file to which log messages should be written (for file-based handlers).
+-other parameters: Additional parameters specific to the handler class being used.
+
+Common Handler Classes:
+logging.StreamHandler: Sends log messages to streams such as sys.stdout or sys.stderr.
+logging.FileHandler: Writes log messages to a file.
+logging.handlers.RotatingFileHandler: Writes log messages to a file, with the ability to rotate the log file at a certain size.
+logging.handlers.TimedRotatingFileHandler: Writes log messages to a file, with the ability to rotate the log file at certain timed intervals.
+logging.handlers.SMTPHandler: Sends log messages via email.
+logging.handlers.SocketHandler: Sends log messages to a network socket.
+logging.handlers.SysLogHandler: Sends log messages to a Unix syslog.
+logging.handlers.HTTPHandler: Sends log messages to a web server via HTTP GET or POST.
+
+Levels:
+DEBUG: Low level system information for debugging purposes
+INFO: General system information
+WARNING: Information describing a minor problem that has occurred.
+ERROR: Information describing a major problem that has occurred.
+CRITICAL: Information describing a critical problem that has occurred.
+
+Loggers
+define how log messages are propogated to handlers. Logger names can be both predefined and user-defined.
+we will use predefined logger names
+
+Logger names for django:
+django: The base logger for messages from the Django framework.
+django.request: Used for logging warnings and errors that occur during the processing of a request.
+django.db.backends: Used for logging SQL queries.
+django.security.*: Used for logging security-related messages, with various sub-loggers for different security concerns.
+django.template: Used for logging template-related messages.
+django.server: Used for logging messages from the development server.
+https://docs.djangoproject.com/en/5.0/ref/logging/
+
+Components:
+handlers - list f handlers that will process log messages for this logger
+level - minimum log level that logger will handle
+propogate - boolean indiciating whether log messages should be passed to logger's parent
+
+To find the current file location:
+pwd
+To find a file location:
+find / -name filename.ext 2>/dev/null
+
+/usr/share/logstash/config/logstash.yml
+
+curl -XPOST 'http://localhost:80' -d 'hello world'
+
+curl -X GET "http://elasticsearch:9200/_cat/indices?v"
+
+"postgresql://username:password@hostname:port/database_name?sslmode=disable"

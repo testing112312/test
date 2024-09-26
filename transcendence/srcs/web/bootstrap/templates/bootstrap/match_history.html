@@ -1,0 +1,15 @@
+
+{% if friend.m_history %}
+    {% for char in friend.m_history %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ friend.username }}</td>
+            <td>Player 2</td>
+            <td>{{ char }}</td>
+        </tr>
+    {% endfor %}
+{% else %}
+    <tr>
+        <td colspan="4">No matches played</td>
+    </tr>
+{% endif %}

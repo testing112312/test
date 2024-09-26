@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+*{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Secular One', sans-serif;
+}
+
+body
+{
+    min-height: 100vh;
+    min-width: 100vw;
+}
+
+/* content box css */
+.page
+{
+    width: 90vw;
+    height: 95vh;
+    box-shadow: 0 10px 12px rgb(255, 255, 255);
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+}
+#contentB{
+    height: auto;
+    min-height: 80%;
+    padding: 10px;
+}
+
+/* nav */
+#nav
+{
+    width: 98%;
+    border-radius: 2vw;
+    padding-left: 0px;
+    margin-left: 5px;
+}
+#userprofile
+{
+    text-decoration: none; /* Remove underline */
+    color: inherit; /* Inherit color from parent element */
+    font-weight: normal; /* Reset font weight */
+    font-style: normal; /* Reset font style */
+    background: none; /* Remove background */
+    border: none; /* Remove border */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    cursor: pointer; /* Change cursor to pointer */
+}

@@ -1,0 +1,19 @@
+Django==5.1
+django-elasticsearch-dsl==8.0
+django-elasticsearch-dsl-drf==0.22.5
+django-prometheus==2.3.1
+social-auth-app-django==5.4.2
+psycopg2-binary==2.9.9
+gunicorn==23.0.0
+python-logstash==0.4.8
+json-log-formatter==1.0
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
+#python-dotenv # to use .env variables
+cryptography == 41.0.3
+pyotp==2.6.0   # Add pyotp library for 2FA
+#make sure libjpeg libteff and freetype are installed if issue with pillow wheel
+pillow==10.4.0
+qrcode[pil]==7.3.1  # Add qrcode with Pillow support for generating QR codes
+hvac==2.3.0
+#TODO use range for version

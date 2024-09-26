@@ -1,0 +1,20 @@
+{% extends "bootstrap/layout.html" %}
+{% load static %}
+
+{% block content %}
+<!-- home -->
+     <div class="row gy-2 gy-md-0">
+         <div class="col-md-6">
+            <div class="p-xl-5 m-xl-5">
+                <img class="rounded img-fluid w-100 fit-cover" style="min-height: 300px;" src='{% static "pong/home.png" %}' width="296" height="300">
+            </div>
+         </div>
+         <div class="col-md-6 d-sm-flex justify-content-center justify-content-sm-center align-items-md-center">
+             <div style="max-width: 350px;">
+                 <h2 class="text-uppercase fw-bold">Pong</h2>
+                 <p class="my-3">A on device multiplayer game&nbsp;</p>
+                 <a class="btn btn-primary btn-lg me-2 ponglink" role="button" href="{% url 'game' %}">PLAY NOW</a>
+             </div>
+         </div>
+     </div>
+{% endblock %}

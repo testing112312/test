@@ -1,0 +1,66 @@
+{% extends "bootstrap/layout.html" %}
+{% load static %}
+
+{% block content %}
+<section class="position-relative ">
+    <div class="container" style="margin-top: -38px;">
+        <div class="row mb-5">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2>Settings</h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center" style="margin-top: -28px;">
+            <div class="col-md-6 col-xl-4">
+                <div class="card mb-5">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <form class="text-center" id="updateform" action="{% url 'UpdateProfile' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="alert  d-none message" role="alert">
+                                <div id="error">
+                                    {{ message }}
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row justify-content-around align-items-center" style="height: 100px;">
+                                <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
+                                    {% if user.avatar %}
+                                        <img class="rounded-circle" alt="" width="75" height="75" src='{{ user.avatar.url }}'  style="object-fit: cover;">
+                                    {% else %}
+                                        <img class="rounded-circle" alt="" width="75" height="75" src='{% static "pong/image/User.png" %}'  style="object-fit: cover;">
+                                    {% endif %}
+                                </div>
+                                <input type="file" accept="image/*"  onchange="valid_image(this.files[0])" id="id_file" style="position: relative;max-width: 100px;">
+                            </div>
+                            <div class="d-flex flex-row justify-content-center align-items-center" style="padding-right: 0px;padding-left: 0px;margin-left: -1px;">
+                                <div class="form-check">
+                                    {% if user.bool_two_fa %}
+                                        <button class="btn btn-primary d-block w-100 2fa"  onclick="setup2fa(`{% url 'setup_2fa' %}`)">Disable 2FA</button>
+                                    {% else %}
+                                        <button class="btn btn-primary d-block w-100 2fa"  onclick="setup2fa(`{% url 'setup_2fa' %}`)">Enable 2FA</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="email" name="email" placeholder="Email"  value=" {{ user.email }}" autocomplete="off" disabled readonly>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="text" name="userId" placeholder="UserId" id="id_username" value=" {{ user.username }}" disabled readonly>
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="password" name="password" placeholder="Old Password" id="id_password" >
+                            </div>
+                            <div class="mb-3">
+                                <input class="form-control" type="password" name="password" placeholder="New Password" id="id_new_password">
+                            </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-block w-100" type="submit" onclick="updateuser()">Update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+

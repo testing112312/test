@@ -1,0 +1,6 @@
+Remove all environment variables
+Used SECRET_KEY for settings.py in navi
+Force auto restart on failure for all containers
+Remove csrf_exepmt
+Use all auth_required
+remove encryption keys
